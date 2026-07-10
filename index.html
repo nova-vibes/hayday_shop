@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAYDAYLÜKS - Mağaza</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">HAYDAY<span>LÜKS</span></a>
+            
+            <div class="nav-icons">
+                <a href="cart.html" class="cart-icon">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </a>
+                <button class="hamburger-menu" id="hamburger-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="side-menu" id="side-menu">
+            <ul>
+                <li><a href="index.html" class="menu-link active"><i class="fas fa-home"></i> Ana Səhifə</a></li>
+                <li><a href="admin.html" class="menu-link"><i class="fas fa-user-shield"></i> Admin Paneli</a></li>
+                <li><a href="#footer-contact" class="menu-link" id="contact-menu-link"><i class="fas fa-envelope"></i> Əlaqə</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="shop-container">
+        <h2 class="section-title"><i class="fas fa-store"></i> Mağaza Vitrini</h2>
+        
+        <div class="category-nav">
+            <button class="cat-btn active" data-category="all">Hamısı</button>
+            <button class="cat-btn" data-category="tools">Alətlər</button>
+            <button class="cat-btn" data-category="materials">Materiallar</button>
+            <button class="cat-btn" data-category="gold">Qızıl (Coin)</button>
+            <button class="cat-btn" data-category="urunler">Ürünlər</button>
+            <button class="cat-btn" data-category="depo">Depo</button>
+            <button class="cat-btn" data-category="oyunlar">Oyunlar</button>
+        </div>
+
+        <div class="products-grid" id="products-container"></div>
+    </main>
+
+    <footer class="footer-contact" id="footer-contact">
+        <div class="footer-content">
+            <h3><i class="fas fa-headset"></i> Bizimlə Əlaqə</h3>
+            <p>Sifarişlər, suallar və təkliflər üçün Telegram kanallarımıza qoşula bilərsiniz:</p>
+            <div class="contact-links">
+                <a href="https://t.me/haydayluksgrup" target="_blank" class="contact-item-link tg-group">
+                    <i class="fab fa-telegram-plane"></i> Telegram Qrup: <span>haydayluksgrup</span>
+                </a>
+                <a href="https://t.me/Humi_9" target="_blank" class="contact-item-link tg-admin">
+                    <i class="fab fa-telegram-plane"></i> Rəsmi Admin: <span>@Humi_9</span>
+                </a>
+            </div>
+            <p class="copyright">&copy; 2026 HAYDAYLÜKS. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

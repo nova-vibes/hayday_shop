@@ -1,0 +1,311 @@
+/* Ümumi Sıfırlama */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth; /* Əlaqə düyməsinə basanda səhifə yumşaq aşağı düşsün */
+}
+
+body {
+    background-color: #f4f7f6;
+    color: #333;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #2e7d32;
+    padding: 15px 0;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+    width: 85%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo span { color: #ffca28; }
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.cart-icon {
+    position: relative;
+    font-size: 22px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.cart-count {
+    position: absolute;
+    top: -10px;
+    right: -12px;
+    background: #e53935;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+/* 3 Xətt Hamburger */
+.hamburger-menu {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.hamburger-menu:hover { color: #ffca28; }
+
+/* Yan Menyu */
+.side-menu {
+    position: absolute;
+    top: 100%;
+    right: 7.5%;
+    background: white;
+    width: 200px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    overflow: hidden;
+    display: none;
+}
+
+.side-menu.show { display: block; }
+.side-menu ul { list-style: none; }
+.side-menu ul li a {
+    display: block;
+    padding: 15px 20px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+    border-bottom: 1px solid #f0f0f0;
+}
+.side-menu ul li a i { margin-right: 8px; color: #2e7d32; }
+.side-menu ul li a:hover, .side-menu ul li a.active {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+/* Kateqoriya Naviqasiyası */
+.category-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.cat-btn {
+    background-color: white;
+    color: #2e7d32;
+    border: 2px solid #2e7d32;
+    padding: 8px 20px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cat-btn:hover, .cat-btn.active {
+    background-color: #2e7d32;
+    color: white;
+    box-shadow: 0 4px 10px rgba(46, 125, 50, 0.2);
+}
+
+/* Mağaza Vitrini */
+.shop-container {
+    width: 85%;
+    margin: 40px auto;
+}
+
+.section-title {
+    margin-bottom: 30px;
+    color: #2e7d32;
+    font-size: 24px;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #e0e0e0;
+    position: relative;
+}
+
+.category-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 4px 10px;
+    font-size: 11px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.delete-prod-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #e53935;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.product-image img {
+    max-width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin: 15px 0;
+}
+
+.price {
+    font-size: 22px;
+    font-weight: bold;
+    color: #e65100;
+    margin-bottom: 15px;
+}
+
+.add-to-cart-btn {
+    background: #ffb300;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add-to-cart-btn:hover { background: #ffa000; }
+
+/* Səbət Səhifəsi */
+.cart-page-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #e0e0e0;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.cart-item-info h4 { font-size: 16px; color: #333; }
+.cart-item-info p { font-size: 14px; color: #666; margin-top: 4px; }
+.remove-item-btn { background: none; border: none; color: #e53935; cursor: pointer; font-size: 18px; }
+.cart-total-section { text-align: right; border-top: 2px solid #f0f0f0; padding-top: 20px; }
+.cart-total-section h3 span { color: #e65100; font-size: 24px; }
+.clear-cart-btn { background: #cfd8dc; color: #37474f; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+.checkout-btn { background: #4caf50; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+.checkout-btn:hover { background: #388e3c; }
+
+/* Admin Giriş */
+.admin-login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+}
+
+.login-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 380px;
+    width: 90%;
+    border-top: 5px solid #2e7d32;
+}
+
+.login-card h2 { color: #2e7d32; margin-bottom: 10px; }
+.login-card p { color: #666; font-size: 14px; margin-bottom: 20px; }
+.login-card input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; outline: none; text-align: center; }
+.login-card button { width: 100%; background: #2e7d32; color: white; border: none; padding: 12px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 16px; }
+
+/* Admin Panel Nizamı */
+.admin-page-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; }
+@media (max-width: 900px) { .admin-page-layout { grid-template-columns: 1fr; } }
+.admin-form-section, .admin-products-section { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; }
+.admin-form-section h3, .admin-products-section h3 { color: #2e7d32; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
+.form-group { margin-bottom: 15px; display: flex; flex-direction: column; }
+.form-group label { font-weight: 600; margin-bottom: 6px; font-size: 14px; }
+.form-group input, .form-group select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; outline: none; }
+.admin-btn { background: #2e7d32; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
+
+/* Əlaqə Paneli (Footer) */
+.footer-contact {
+    background-color: #1b5e20;
+    color: white;
+    padding: 40px 0;
+    margin-top: 60px;
+    text-align: center;
+}
+.footer-content { width: 85%; margin: 0 auto; max-width: 600px; }
+.footer-content h3 { font-size: 22px; margin-bottom: 10px; color: #ffca28; }
+.footer-content p { font-size: 14px; color: #e8f5e9; margin-bottom: 20px; }
+.contact-links { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.contact-item-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: 600;
+    width: 100%;
+    max-width: 340px;
+    justify-content: center;
+    transition: background 0.3s;
+}
+.contact-item-link:hover { background: rgba(255, 255, 255, 0.2); color: #ffca28; }
+.contact-item-link i { font-size: 18px; }
+.copyright { margin-top: 30px; font-size: 12px !important; color: #a5d6a7 !important; }

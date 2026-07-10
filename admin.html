@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Paneli - HAYDAYLÜKS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo"><i class="fas fa-arrow-left"></i> HAYDAY<span>LÜKS</span></a>
+            <span style="font-weight: bold; font-size: 18px;"><i class="fas fa-user-shield"></i> Yönetici Girişi</span>
+        </div>
+    </nav>
+
+    <div class="admin-login-container" id="admin-login-box">
+        <div class="login-card">
+            <h2><i class="fas fa-lock"></i> Admin Girişi</h2>
+            <p>Davam etmək üçün təhlükəsizlik şifrəsini daxil edin</p>
+            <input type="password" id="admin-pass-input" placeholder="Şifrə">
+            <button id="admin-login-btn">Giriş Et</button>
+        </div>
+    </div>
+
+    <main class="shop-container hidden" id="admin-main-panel">
+        <div class="admin-page-layout">
+            
+            <section class="admin-form-section">
+                <h3><i class="fas fa-plus-circle"></i> Yeni Məhsul Vitrini</h3>
+                <form id="product-form">
+                    <div class="form-group">
+                        <label for="prod-name">Məhsulun Adı:</label>
+                        <input type="text" id="prod-name" placeholder="Məs: Mişar (Saw) - 50 Ədəd" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Şəkil Əlavə Etmə Üsulu:</label>
+                        <select id="image-source-select">
+                            <option value="url">İnternet Linki (URL) ilə</option>
+                            <option value="file">Qalereyadan / Fayldan Yüklə</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="url-image-group">
+                        <label for="prod-image-url">Məhsul Şəkli (URL Link):</label>
+                        <input type="url" id="prod-image-url" placeholder="Şəklin internet linkini yapışdırın">
+                    </div>
+
+                    <div class="form-group hidden" id="file-image-group">
+                        <label for="prod-image-file">Qalereyadan Şəkil Seç:</label>
+                        <input type="file" id="prod-image-file" accept="image/*">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prod-price">Satış Qiyməti (AZN):</label>
+                        <input type="number" id="prod-price" step="0.01" placeholder="Məs: 4.50" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prod-category">Kateqoriya:</label>
+                        <select id="prod-category" required>
+                            <option value="">Seçin...</option>
+                            <option value="tools">Alətlər</option>
+                            <option value="materials">Materiallar</option>
+                            <option value="gold">Qızıl (Coin)</option>
+                            <option value="urunler">Ürünlər</option>
+                            <option value="depo">Depo</option>
+                            <option value="oyunlar">Oyunlar</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="admin-btn">Vitrinə Burax</button>
+                </form>
+            </section>
+
+            <section class="admin-products-section">
+                <h3><i class="fas fa-edit"></i> Vitrindəki Məhsulları İdarə Et (Sil)</h3>
+                <div class="products-grid" id="admin-products-container"></div>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

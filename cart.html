@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Səbətim - HAYDAYLÜKS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo"><i class="fas fa-arrow-left"></i> HAYDAY<span>LÜKS</span></a>
+            <span style="font-weight: bold; font-size: 18px;"><i class="fas fa-shopping-basket"></i> Alacaqlarım</span>
+        </div>
+    </nav>
+
+    <main class="shop-container" style="max-width: 600px;">
+        <div class="cart-page-container">
+            <div class="cart-items" id="cart-items-page">
+                </div>
+
+            <div class="cart-total-section">
+                <h3>Cəmi Məbləğ: <span id="total-amount-page">0.00</span> AZN</h3>
+                <div class="cart-actions" style="margin-top: 20px; display: flex; gap: 10px;">
+                    <button id="clear-cart-page-btn" class="clear-cart-btn"><i class="fas fa-trash"></i> Təmizlə</button>
+                    <button id="checkout-whatsapp-btn" class="checkout-btn"><i class="fab fa-whatsapp"></i> Sifarişi Tamamla</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
