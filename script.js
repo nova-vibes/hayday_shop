@@ -1,10 +1,13 @@
-let products = JSON.parse(localStorage.getItem('hayday_products')) || [];
+let products = [];
 let cart = JSON.parse(localStorage.getItem('hayday_cart')) || [];
 let currentCategory = 'all';
 
 // "hayday*2025!admin" şifrəsinin Base64 gizli qarşılığı
 const ADMIN_PASSWORD_ENCRYPTED = "aGF5ZGF5KjIwMjUhYWRtaW4=";
 const MY_WHATSAPP_NUMBER = "994707093536"; // Sənin WhatsApp nömrən
+
+// Sənin Firebase Realtime Database Linkin
+const FIREBASE_URL = "https://shop-798eb-default-rtdb.europe-west1.firebasedatabase.app/products";
 
 // DOM Elementləri
 const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -32,6 +35,101 @@ const fileImageGroup = document.getElementById('file-image-group');
 
 
 // ==========================================
+// AVTOMATİK ŞƏKİL SIXIŞDIRICI (COMPRESSOR)
+// ==========================================
+function compressImage(base64Str, maxWidth = 300, maxHeight = 300) {
+    return new Promise((resolve) => {
+        let img = new Image();
+        img.src = base64Str;
+        img.onload = () => {
+            let canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height) {
+                if (width > maxWidth) {
+                    height *= maxWidth / width;
+                    width = maxWidth;
+                }
+            } else {
+                if (height > maxHeight) {
+                    width *= maxHeight / height;
+                    height = maxHeight;
+                }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            let ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', 0.7)); // 70% keyfiyyətlə sıxışdırır
+        };
+    });
+}
+
+
+// ==========================================
+// FIREBASE INTERNET BAZASI FUNKSİYALARI
+// ==========================================
+async function fetchProductsFromFirebase() {
+    try {
+        const response = await fetch(`${FIREBASE_URL}.json`);
+        const data = await response.json();
+        
+        products = [];
+        if (data) {
+            Object.keys(data).forEach(key => {
+                products.push({ firebaseKey: key, ...data[key] });
+            });
+        }
+        
+        displayProducts();
+        if (adminMainPanel && !adminMainPanel.classList.contains('hidden')) {
+            displayAdminProducts();
+        }
+    } catch (error) {
+        console.error("Məlumat bazadan çəkilərkən xəta oldu:", error);
+    }
+}
+
+async function saveProductToFirebase(name, imageSrc, price, category) {
+    const newProduct = { id: Date.now(), name, image: imageSrc, price, category };
+    
+    try {
+        const response = await fetch(`${FIREBASE_URL}.json`, {
+            method: 'POST',
+            body: JSON.stringify(newProduct)
+        });
+        
+        if(response.ok) {
+            alert("Məhsul uğurla onlayn bazaya əlavə edildi!");
+            productForm.reset();
+            imageSourceSelect.value = 'url';
+            urlImageGroup.classList.remove('hidden');
+            fileImageGroup.classList.add('hidden');
+            fetchProductsFromFirebase();
+        } else {
+            alert("Baza qəbul etmədi. Şəkil hələ də çox böyük ola bilər.");
+        }
+    } catch (error) {
+        alert("Məhsul bazaya yazıla bilmədi, interneti yoxla!");
+    }
+}
+
+async function deleteProductFromFirebase(firebaseKey) {
+    if (confirm("Bu məhsulu silmək istəyirsiniz?")) {
+        try {
+            await fetch(`${FIREBASE_URL}/${firebaseKey}.json`, {
+                method: 'DELETE'
+            });
+            fetchProductsFromFirebase();
+        } catch (error) {
+            alert("Silinmə zamanı xəta oldu!");
+        }
+    }
+}
+
+
+// ==========================================
 // 1. HAMBURGER MENYU VƏ SÜRÜŞMƏ (SCROLL)
 // ==========================================
 if (hamburgerBtn && sideMenu) {
@@ -40,12 +138,6 @@ if (hamburgerBtn && sideMenu) {
         e.stopPropagation();
     });
     document.addEventListener('click', () => { sideMenu.classList.remove('show'); });
-}
-
-if (contactMenuLink) {
-    contactMenuLink.addEventListener('click', () => {
-        if (sideMenu) sideMenu.classList.remove('show');
-    });
 }
 
 
@@ -152,44 +244,6 @@ window.removeFromCart = function(productId) {
     updateCartState();
 };
 
-if (clearCartPageBtn) {
-    clearCartPageBtn.addEventListener('click', () => {
-        if (cart.length > 0 && confirm("Səbəti təmizləmək istəyirsiniz?")) {
-            cart = [];
-            localStorage.setItem('hayday_cart', JSON.stringify(cart));
-            updateCartState();
-        }
-    });
-}
-
-if (checkoutWhatsappBtn) {
-    checkoutWhatsappBtn.addEventListener('click', () => {
-        if (cart.length === 0) {
-            alert("Səbətiniz boşdur, sifariş ediləcək məhsul yoxdur!");
-            return;
-        }
-
-        let messageText = "🌟 *HAYDAYLÜKS - YENİ SİFARİŞ* 🌟\n\n";
-        let total = 0;
-
-        cart.forEach((item, index) => {
-            let itemTotal = item.price * item.quantity;
-            total += itemTotal;
-            messageText += `${index + 1}) 🌾 *${item.name}*\n`;
-            messageText += `   Sayı: ${item.quantity} ədəd\n`;
-            messageText += `   Qiymət: ${itemTotal.toFixed(2)} AZN\n\n`;
-        });
-
-        messageText += `-------------------------\n`;
-        messageText += `💰 *Cəmi Ödəniləcək Məbləğ:* ${total.toFixed(2)} AZN\n\n`;
-        messageText += `Sifarişimi təsdiqləmək və çatdırılma üçün məlumat almaq istəyirəm.`;
-
-        let encodedMessage = encodeURIComponent(messageText);
-        let whatsappURL = `https://api.whatsapp.com/send?phone=${MY_WHATSAPP_NUMBER}&text=${encodedMessage}`;
-        window.open(whatsappURL, '_blank');
-    });
-}
-
 function updateCartState() {
     if (cartCountElement) {
         cartCountElement.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -213,12 +267,9 @@ if (imageSourceSelect) {
     });
 }
 
-// 100% Sorunsuz İşləyən Yeni Giriş Məntiqi (btoa vasitəsilə)
 if (adminLoginBtn && adminPassInput) {
     adminLoginBtn.addEventListener('click', () => {
         const enteredPassword = adminPassInput.value.trim();
-        
-        // Brauzerin daxili sürətli çeviricisi ilə mətni şifrələyirik
         const encodedInput = btoa(enteredPassword);
 
         if (encodedInput === ADMIN_PASSWORD_ENCRYPTED) {
@@ -245,7 +296,7 @@ function displayAdminProducts() {
     products.forEach(product => {
         adminHTML += `
             <div class="product-card" style="padding: 10px; font-size:14px;">
-                <button class="delete-prod-btn" onclick="deleteProductFromAdmin(${product.id})">
+                <button class="delete-prod-btn" onclick="deleteProductFromFirebase('${product.firebaseKey}')">
                     <i class="fas fa-trash-alt"></i>
                 </button>
                 <div class="product-image"><img src="${product.image}" style="max-width:60px; height:60px; object-fit:contain;"></div>
@@ -267,47 +318,27 @@ if (productForm) {
 
         if (source === 'url') {
             const imageURL = document.getElementById('prod-image-url').value;
-            saveProduct(name, imageURL, price, category);
+            saveProductToFirebase(name, imageURL, price, category);
         } else {
             const fileInput = document.getElementById('prod-image-file');
             if (fileInput.files.length === 0) {
-                alert("Zəhmət olmasa qalereyadan bir şəkil seçin!");
+                alert("Zəhmət olmasa bir şəkil seçin!");
                 return;
             }
             
             const reader = new FileReader();
             reader.onload = function(event) {
                 const base64Image = event.target.result;
-                saveProduct(name, base64Image, price, category);
+                
+                // Seçilən şəkli sıxışdırıb sonra Firebase-ə göndəririk
+                compressImage(base64Image).then(compressedBase64 => {
+                    saveProductToFirebase(name, compressedBase64, price, category);
+                });
             };
             reader.readAsDataURL(fileInput.files[0]);
         }
     });
 }
 
-function saveProduct(name, imageSrc, price, category) {
-    products.push({ id: Date.now(), name, image: imageSrc, price, category });
-    localStorage.setItem('hayday_products', JSON.stringify(products));
-    
-    productForm.reset();
-    imageSourceSelect.value = 'url';
-    urlImageGroup.classList.remove('hidden');
-    fileImageGroup.classList.add('hidden');
-
-    alert("Məhsul uğurla vitrinə əlavə edildi!");
-    displayProducts();
-    displayAdminProducts();
-}
-
-window.deleteProductFromAdmin = function(productId) {
-    if (confirm("Silmək istəyirsiniz?")) {
-        products = products.filter(p => p.id !== productId);
-        localStorage.setItem('hayday_products', JSON.stringify(products));
-        displayProducts();
-        displayAdminProducts();
-    }
-};
-
-// Başlanğıc yükləmələr
-displayProducts();
+fetchProductsFromFirebase();
 updateCartState();
