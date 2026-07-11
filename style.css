@@ -10,6 +10,7 @@
 body {
     background-color: #f4f7f6;
     color: #333;
+    overflow-x: hidden; /* Mobil cihazlarda sağa-sola lazımsız sürüşmələrin qarşısını alır */
 }
 
 .hidden {
@@ -28,7 +29,8 @@ body {
 }
 
 .nav-container {
-    width: 85%;
+    width: 90%; /* Kiçik ekranlar üçün bir az genişləndirildi */
+    max-width: 1200px; /* Böyük ekranlarda çox dağılmaması üçün limit qoyuldu */
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -37,7 +39,7 @@ body {
 
 .logo {
     color: #fff;
-    font-size: 24px;
+    font-size: 22px; /* Mobildə daha yaxşı sığması üçün optimallaşdırıldı */
     font-weight: bold;
     text-decoration: none;
     display: flex;
@@ -45,12 +47,24 @@ body {
     gap: 10px;
 }
 
+@media (min-width: 480px) {
+    .logo {
+        font-size: 24px;
+    }
+}
+
 .logo span { color: #ffca28; }
 
 .nav-icons {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 15px; /* Mobildə daha sıx, nizamlı dursun */
+}
+
+@media (min-width: 480px) {
+    .nav-icons {
+        gap: 25px;
+    }
 }
 
 .cart-icon {
@@ -89,13 +103,19 @@ body {
 .side-menu {
     position: absolute;
     top: 100%;
-    right: 7.5%;
+    right: 5%; /* Nav-container uyğunlaşdırıldı */
     background: white;
     width: 200px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     border-radius: 8px;
     overflow: hidden;
     display: none;
+}
+
+@media (min-width: 1200px) {
+    .side-menu {
+        right: calc((100% - 1200px) / 2 + 5%); /* Çox böyük ekranlarda düzgün mövqe üçün */
+    }
 }
 
 .side-menu.show { display: block; }
@@ -119,21 +139,34 @@ body {
 .category-nav {
     display: flex;
     justify-content: center;
-    gap: 12px;
+    gap: 8px; /* Mobildə düymələr sıxışmasın */
     margin-bottom: 30px;
     flex-wrap: wrap;
+}
+
+@media (min-width: 480px) {
+    .category-nav {
+        gap: 12px;
+    }
 }
 
 .cat-btn {
     background-color: white;
     color: #2e7d32;
     border: 2px solid #2e7d32;
-    padding: 8px 20px;
-    font-size: 15px;
+    padding: 6px 16px; /* Mobildə daha rahat kliklənsin deyə klik sahəsi qorundu */
+    font-size: 14px;
     font-weight: bold;
     border-radius: 25px;
     cursor: pointer;
     transition: all 0.3s ease;
+}
+
+@media (min-width: 480px) {
+    .cat-btn {
+        padding: 8px 20px;
+        font-size: 15px;
+    }
 }
 
 .cat-btn:hover, .cat-btn.active {
@@ -144,30 +177,63 @@ body {
 
 /* Mağaza Vitrini */
 .shop-container {
-    width: 85%;
-    margin: 40px auto;
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
+}
+
+@media (min-width: 768px) {
+    .shop-container {
+        margin: 40px auto;
+    }
 }
 
 .section-title {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     color: #2e7d32;
-    font-size: 24px;
+    font-size: 20px;
+    text-align: center; /* Mobildə daha nizamlı görünür */
+}
+
+@media (min-width: 768px) {
+    .section-title {
+        margin-bottom: 30px;
+        font-size: 24px;
+        text-align: left;
+    }
 }
 
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 25px;
+    /* Mobildə minimum 140px (yan-yana 2 kart yerləşə bilsin deyə), böyük ekranda 220px */
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+    gap: 15px;
+}
+
+@media (min-width: 480px) {
+    .products-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 25px;
+    }
 }
 
 .product-card {
     background: white;
     border-radius: 12px;
-    padding: 20px;
+    padding: 12px; /* Mobildə daxili boşluq azaldıldı */
     text-align: center;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     border: 1px solid #e0e0e0;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+@media (min-width: 480px) {
+    .product-card {
+        padding: 20px;
+    }
 }
 
 .category-badge {
@@ -177,7 +243,7 @@ body {
     background: #e8f5e9;
     color: #2e7d32;
     padding: 4px 10px;
-    font-size: 11px;
+    font-size: 10px;
     border-radius: 20px;
     font-weight: bold;
 }
@@ -194,17 +260,31 @@ body {
 }
 
 .product-image img {
-    max-width: 120px;
-    height: 120px;
+    width: 100%;
+    max-width: 100px;
+    height: 100px;
     object-fit: contain;
     margin: 15px 0;
 }
 
+@media (min-width: 480px) {
+    .product-image img {
+        max-width: 120px;
+        height: 120px;
+    }
+}
+
 .price {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: bold;
     color: #e65100;
     margin-bottom: 15px;
+}
+
+@media (min-width: 480px) {
+    .price {
+        font-size: 22px;
+    }
 }
 
 .add-to-cart-btn {
@@ -215,6 +295,13 @@ body {
     border-radius: 20px;
     font-weight: bold;
     cursor: pointer;
+    font-size: 13px;
+}
+
+@media (min-width: 480px) {
+    .add-to-cart-btn {
+        font-size: 14px;
+    }
 }
 
 .add-to-cart-btn:hover { background: #ffa000; }
@@ -222,10 +309,16 @@ body {
 /* Səbət Səhifəsi */
 .cart-page-container {
     background: white;
-    padding: 25px;
+    padding: 15px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     border: 1px solid #e0e0e0;
+}
+
+@media (min-width: 768px) {
+    .cart-page-container {
+        padding: 25px;
+    }
 }
 
 .cart-item {
@@ -234,15 +327,49 @@ body {
     align-items: center;
     padding: 15px 0;
     border-bottom: 1px solid #f0f0f0;
+    gap: 10px;
 }
 
-.cart-item-info h4 { font-size: 16px; color: #333; }
-.cart-item-info p { font-size: 14px; color: #666; margin-top: 4px; }
-.remove-item-btn { background: none; border: none; color: #e53935; cursor: pointer; font-size: 18px; }
-.cart-total-section { text-align: right; border-top: 2px solid #f0f0f0; padding-top: 20px; }
-.cart-total-section h3 span { color: #e65100; font-size: 24px; }
-.clear-cart-btn { background: #cfd8dc; color: #37474f; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-.checkout-btn { background: #4caf50; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+.cart-item-info h4 { font-size: 14px; color: #333; }
+.cart-item-info p { font-size: 13px; color: #666; margin-top: 4px; }
+
+@media (min-width: 480px) {
+    .cart-item-info h4 { font-size: 16px; }
+    .cart-item-info p { font-size: 14px; }
+}
+
+.remove-item-btn { background: none; border: none; color: #e53935; cursor: pointer; font-size: 18px; flex-shrink: 0; }
+
+.cart-total-section { 
+    text-align: right; 
+    border-top: 2px solid #f0f0f0; 
+    padding-top: 20px; 
+}
+
+.cart-total-section h3 span { color: #e65100; font-size: 20px; }
+
+@media (min-width: 480px) {
+    .cart-total-section h3 span { font-size: 24px; }
+}
+
+/* Düymə qrupları mobildə alt-alta, böyük ekranda yan-yana olsun */
+.cart-buttons-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+    align-items: stretch;
+}
+
+@media (min-width: 480px) {
+    .cart-buttons-group {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+}
+
+.clear-cart-btn { background: #cfd8dc; color: #37474f; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; text-align: center; }
+.checkout-btn { background: #4caf50; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .checkout-btn:hover { background: #388e3c; }
 
 /* Admin Giriş */
@@ -250,47 +377,68 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 80px;
+    margin-top: 40px;
+    padding: 0 15px;
+}
+
+@media (min-width: 768px) {
+    .admin-login-container {
+        margin-top: 80px;
+    }
 }
 
 .login-card {
     background: white;
-    padding: 30px;
+    padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     text-align: center;
     max-width: 380px;
-    width: 90%;
+    width: 100%;
     border-top: 5px solid #2e7d32;
 }
 
-.login-card h2 { color: #2e7d32; margin-bottom: 10px; }
-.login-card p { color: #666; font-size: 14px; margin-bottom: 20px; }
+@media (min-width: 480px) {
+    .login-card {
+        padding: 30px;
+    }
+}
+
+.login-card h2 { color: #2e7d32; margin-bottom: 10px; font-size: 20px; }
+.login-card p { color: #666; font-size: 13px; margin-bottom: 20px; }
 .login-card input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; outline: none; text-align: center; }
 .login-card button { width: 100%; background: #2e7d32; color: white; border: none; padding: 12px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 16px; }
 
 /* Admin Panel Nizamı */
-.admin-page-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; }
-@media (max-width: 900px) { .admin-page-layout { grid-template-columns: 1fr; } }
-.admin-form-section, .admin-products-section { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; }
-.admin-form-section h3, .admin-products-section h3 { color: #2e7d32; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
+.admin-page-layout { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 900px) { .admin-page-layout { grid-template-columns: 1fr 2fr; gap: 30px; } }
+.admin-form-section, .admin-products-section { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; }
+@media (min-width: 480px) { .admin-form-section, .admin-products-section { padding: 25px; } }
+.admin-form-section h3, .admin-products-section h3 { color: #2e7d32; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; font-size: 18px; }
 .form-group { margin-bottom: 15px; display: flex; flex-direction: column; }
 .form-group label { font-weight: 600; margin-bottom: 6px; font-size: 14px; }
-.form-group input, .form-group select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; outline: none; }
+.form-group input, .form-group select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; outline: none; width: 100%; }
 .admin-btn { background: #2e7d32; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
 
 /* Əlaqə Paneli (Footer) */
 .footer-contact {
     background-color: #1b5e20;
     color: white;
-    padding: 40px 0;
-    margin-top: 60px;
+    padding: 30px 15px; /* Mobildə kənarlardan sıxışmasın */
+    margin-top: 40px;
     text-align: center;
 }
-.footer-content { width: 85%; margin: 0 auto; max-width: 600px; }
-.footer-content h3 { font-size: 22px; margin-bottom: 10px; color: #ffca28; }
+@media (min-width: 768px) {
+    .footer-contact {
+        padding: 40px 0;
+        margin-top: 60px;
+    }
+}
+.footer-content { width: 100%; margin: 0 auto; max-width: 600px; }
+.footer-content h3 { font-size: 20px; margin-bottom: 10px; color: #ffca28; }
+@media (min-width: 480px) { .footer-content h3 { font-size: 22px; } }
 .footer-content p { font-size: 14px; color: #e8f5e9; margin-bottom: 20px; }
-.contact-links { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.contact-links { display: flex; flex-direction: column; gap: 12px; align-items: center; width: 100%; }
 .contact-item-link {
     display: flex;
     align-items: center;
@@ -298,13 +446,20 @@ body {
     background: rgba(255, 255, 255, 0.1);
     color: white;
     text-decoration: none;
-    padding: 12px 25px;
+    padding: 12px 20px;
     border-radius: 30px;
     font-weight: 600;
     width: 100%;
     max-width: 340px;
     justify-content: center;
     transition: background 0.3s;
+    font-size: 14px; /* Mobildə uzun linklər daşmasın */
+}
+@media (min-width: 480px) {
+    .contact-item-link {
+        padding: 12px 25px;
+        font-size: 16px;
+    }
 }
 .contact-item-link:hover { background: rgba(255, 255, 255, 0.2); color: #ffca28; }
 .contact-item-link i { font-size: 18px; }
