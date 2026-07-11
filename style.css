@@ -462,5 +462,59 @@ body {
     }
 }
 .contact-item-link:hover { background: rgba(255, 255, 255, 0.2); color: #ffca28; }
+
+
+/* =======================================================
+   🎮 HAYDAYLÜKS - CİHAZLARA GÖRƏ MƏHSUL DÜZÜLÜŞÜ (RESPONSIVE)
+   ======================================================= */
+
+/* 💻 KOMPÜTERLƏR ÜÇÜN (Standart olaraq yan-yana 4 məhsul) */
+#products-container {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 20px !important;
+    padding: 20px !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+}
+
+/* 📋 PLANŞETLƏR ÜÇÜN (Ekran 992px və daha kiçik olduqda: yan-yana 3 məhsul) */
+@media (max-width: 992px) {
+    #products-container {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 15px !important;
+        padding: 15px !important;
+    }
+}
+
+/* 📱 TELEFONLAR ÜÇÜN (Ekran 768px və daha kiçik olduqda: yan-yana 2 məhsul) */
+@media (max-width: 768px) {
+    #products-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important; /* Telefonda kartlar sıxışmasın deyə aralarındakı boşluğu azaldırıq */
+        padding: 10px !important;
+    }
+
+    /* Məhsul şəkillərinin telefonda daşmaması və səliqəli görünməsi üçün */
+    .product-image img {
+        max-width: 100% !important;
+        height: 110px !important; /* Şəklin hündürlüyünü telefona uyğunlaşdırırıq */
+        object-fit: contain !important;
+    }
+
+    /* Yazıların ölçüsünü telefonda bir az optimallaşdırırıq */
+    .product-info h3 {
+        font-size: 14px !important;
+    }
+    .product-info .price {
+        font-size: 14px !important;
+    }
+    .add-to-cart-btn {
+        font-size: 13px !important;
+        padding: 8px 5px !important;
+    }
+}
+
 .contact-item-link i { font-size: 18px; }
 .copyright { margin-top: 30px; font-size: 12px !important; color: #a5d6a7 !important; }
