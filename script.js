@@ -215,7 +215,7 @@ function displayCartPage() {
 
     if (cart.length === 0) {
         cartItemsPageContainer.innerHTML = "<p style='text-align:center; padding: 30px 0; color:#777;'>Səbətiniz tamamilə boşdur.</p>";
-        totalAmountPageElement.textContent = "0.00";
+        if (totalAmountPageElement) totalAmountPageElement.textContent = "0.00";
         return;
     }
 
@@ -235,7 +235,7 @@ function displayCartPage() {
     });
     
     cartItemsPageContainer.innerHTML = cartHTML;
-    totalAmountPageElement.textContent = total.toFixed(2);
+    if (totalAmountPageElement) totalAmountPageElement.textContent = total.toFixed(2);
 }
 
 window.removeFromCart = function(productId) {
@@ -249,6 +249,52 @@ function updateCartState() {
         cartCountElement.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
     }
     displayCartPage();
+}
+
+// --- DÜYMƏLƏRİN EVENT LISTENERLƏRİ (YENİ ƏLAVƏ OLUNDU 🚀) ---
+
+// Səbəti Təmizlə Butonu
+if (clearCartPageBtn) {
+    clearCartPageBtn.addEventListener('click', () => {
+        if (cart.length === 0) {
+            alert("Səbətiniz onsuz da boşdur!");
+            return;
+        }
+        if (confirm("Səbətdəki bütün məhsulları silmək istəyirsiniz?")) {
+            cart = [];
+            localStorage.setItem('hayday_cart', JSON.stringify(cart));
+            updateCartState();
+        }
+    });
+}
+
+// Sifarişi WhatsApp-a Göndər Butonu
+if (checkoutWhatsappBtn) {
+    checkoutWhatsappBtn.addEventListener('click', () => {
+        if (cart.length === 0) {
+            alert("Səbətiniz boşdur, sifariş ediləcək məhsul yoxdur!");
+            return;
+        }
+
+        let messageText = "🌟 *HAYDAYLÜKS - YENİ SİFARİŞ* 🌟\n\n";
+        let total = 0;
+
+        cart.forEach((item, index) => {
+            let itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            messageText += `${index + 1}) 🌾 *${item.name}*\n`;
+            messageText += `   Sayı: ${item.quantity} ədəd\n`;
+            messageText += `   Qiymət: ${itemTotal.toFixed(2)} AZN\n\n`;
+        });
+
+        messageText += `-------------------------\n`;
+        messageText += `💰 *Cəmi Ödəniləcək Məbləğ:* ${total.toFixed(2)} AZN\n\n`;
+        messageText += `Sifarişimi təsdiqləmək və çatdırılma üçün məlumat almaq istəyirəm.`;
+
+        let encodedMessage = encodeURIComponent(messageText);
+        let whatsappURL = `https://api.whatsapp.com/send?phone=${MY_WHATSAPP_NUMBER}&text=${encodedMessage}`;
+        window.open(whatsappURL, '_blank');
+    });
 }
 
 
